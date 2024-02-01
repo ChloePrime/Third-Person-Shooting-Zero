@@ -13,6 +13,14 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(value = ShootingHandler.class, remap = false)
 public class MixinTacShootingHandler {
+    @Inject(
+            method = "fire",
+            at = @At(value = "INVOKE", target = "Lcom/tac/guns/network/PacketHandler;getPlayChannel()Lnet/minecraftforge/network/simple/SimpleChannel;")
+    )
+    private void prepareRotation(Player player, ItemStack heldItem, CallbackInfo ci) {
+        RotationFixer.fixRotationToLocalPlayer();
+    }
+
     @Redirect(
             method = "fire",
             at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/player/Player;getViewXRot(F)F", remap = true),

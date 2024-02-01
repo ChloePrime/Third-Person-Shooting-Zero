@@ -1,6 +1,7 @@
 package mod.chloeprime.thirdpersonshooting.mixin.client;
 
 import com.tac.guns.client.handler.AimingHandler;
+import com.tac.guns.common.AimingManager;
 import com.tac.guns.util.GunModifierHelper;
 import com.teamderpy.shouldersurfing.client.ShoulderInstance;
 import com.teamderpy.shouldersurfing.config.Perspective;
@@ -55,7 +56,7 @@ public class MixinTacAimingHandler {
         e.setNewfov(e.getNewfov() * scale);
     }
 
-    @Mixin(value = AimingHandler.AimTracker.class, remap = false)
+    @Mixin(value = AimingManager.AimTracker.class, remap = false)
     public static class MixinAimTracker {
         @Redirect(
                 method = "handleAiming",
@@ -63,6 +64,9 @@ public class MixinTacAimingHandler {
                 remap = false
         )
         private double lockSpeedAtSsMode(ItemStack weapon, double speed) {
+            if ((Object)this != ((AimingHandlerAccessor) AimingHandler.get()).getLocalTracker()) {
+                return GunModifierHelper.getModifiedAimDownSightSpeed(weapon, speed);
+            }
             if (EffectiveSide.get().isServer() ||
                     !CONSTANT_AIMING_FOV_SCALE.get() ||
                     !ShoulderInstance.getInstance().doShoulderSurfing()

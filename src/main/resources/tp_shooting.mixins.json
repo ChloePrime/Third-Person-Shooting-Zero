@@ -8,6 +8,7 @@
     "client.EntityAccessor"
   ],
   "client": [
+    "client.AimingHandlerAccessor",
     "client.MixinCamera",
     "client.MixinLocalPlayer",
     "client.MixinMouseHandler",
