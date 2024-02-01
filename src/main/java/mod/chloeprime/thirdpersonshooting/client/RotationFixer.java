@@ -8,13 +8,11 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.ClipContext;
-import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.fml.common.Mod;
 
-import static java.lang.Math.atan2;
-import static java.lang.Math.toDegrees;
+import static java.lang.Math.*;
 
 @OnlyIn(Dist.CLIENT)
 @Mod.EventBusSubscriber(Dist.CLIENT)
@@ -40,27 +38,14 @@ public class RotationFixer {
         var reach = minecraft.options.renderDistance * 16;
         var hit = min(traceBlock(mainCamera, player, reach), traceEntity(mainCamera, player, reach));
         if (hit != null) {
-//            var delta0 = hit.target().subtract(hit.start());
-//
-//            var localFront = player.getLookAngle();
-//            var localRight = UP.cross(localFront);
-//
-//            var dy = delta0.y + Config.CLIENT.getOffsetY();
-//            var dx = delta0.x + localRight.x * Config.CLIENT.getOffsetX() - localFront.x * Config.CLIENT.getOffsetZ();
-//            var dz = delta0.z + localRight.z * Config.CLIENT.getOffsetX() - localFront.z * Config.CLIENT.getOffsetZ();
-//            var delta = new Vec3(dx, dy, dz);
             var delta = hit.target().subtract(hit.start());
             var distance = 1 / Mth.fastInvSqrt(delta.lengthSqr());
 
-            xRot = Mth.wrapDegrees((float) toDegrees(-(atan2(delta.y, distance))));
+            xRot = Mth.wrapDegrees((float) toDegrees(-(asin(delta.y / distance))));
             yRot = Mth.wrapDegrees((float) toDegrees(atan2(delta.z, delta.x)) - 90);
             ready = true;
         }
     }
-
-
-
-    private static final Vec3 UP = new Vec3(0, 1, 0);
 
     private static TpsHitResult traceBlock(Camera camera, Entity player, double reach) {
         var partials = Minecraft.getInstance().getFrameTime();
