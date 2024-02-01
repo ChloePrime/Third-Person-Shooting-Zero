@@ -1,0 +1,26 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "mod.chloeprime.thirdpersonshooting.mixin",
+  "compatibilityLevel": "JAVA_8",
+  "refmap": "tp_shooting.refmap.json",
+  "mixins": [
+    "client.EntityAccessor"
+  ],
+  "client": [
+    "client.MixinCamera",
+    "client.MixinLocalPlayer",
+    "client.MixinMouseHandler",
+    "client.MixinSsPerspective",
+    "client.MixinSsShoulderHelper",
+    "client.MixinTacAimingHandler",
+    "client.MixinTacAimingHandler$MixinAimTracker",
+    "client.MixinTacCrosshairHandler",
+    "client.MixinTacFovHandlers",
+    "client.MixinTacMovementAdaptationsHandler",
+    "client.MixinTacShootingHandler"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}
