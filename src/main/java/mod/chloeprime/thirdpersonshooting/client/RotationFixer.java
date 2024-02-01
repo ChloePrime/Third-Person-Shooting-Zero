@@ -8,9 +8,13 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.ClipContext;
+import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.fml.common.Mod;
+
+import javax.annotation.Nullable;
 
 import static java.lang.Math.*;
 
@@ -49,13 +53,31 @@ public class RotationFixer {
 
     private static TpsHitResult traceBlock(Camera camera, Entity player, double reach) {
         var partials = Minecraft.getInstance().getFrameTime();
-        var blockHit = ShoulderHelper.traceBlocks(camera, player, ClipContext.Fluid.NONE, reach, partials, true);
+        var blockHit = traceBlocksIgnoreGrass(camera, player, ClipContext.Fluid.NONE, reach, partials, true);
         if (blockHit == null) {
             return null;
         }
         var start = player.getEyePosition();
         var target = blockHit.getLocation();
         return new TpsHitResult(start, target, target.distanceToSqr(start));
+    }
+
+    @Nullable
+    @SuppressWarnings("DataFlowIssue")
+    public static BlockHitResult traceBlocksIgnoreGrass(Camera camera, Entity entity, ClipContext.Fluid fluidContext, double distance, float partialTick, boolean shoulderSurfing) {
+        Vec3 eyePosition = entity.getEyePosition(partialTick);
+        Vec3 view;
+        Vec3 to;
+        if (shoulderSurfing) {
+            ShoulderHelper.ShoulderLook look = ShoulderHelper.shoulderSurfingLook(camera, entity, partialTick, distance * distance);
+            view = eyePosition.add(look.headOffset());
+            to = look.traceEndPos();
+            return entity.level.clip(new ClipContext(view, to, ClipContext.Block.COLLIDER, fluidContext, entity));
+        } else {
+            view = entity.getViewVector(partialTick);
+            to = eyePosition.add(view.scale(distance));
+            return entity.level.clip(new ClipContext(eyePosition, to, ClipContext.Block.COLLIDER, fluidContext, entity));
+        }
     }
 
     private static TpsHitResult traceEntity(Camera camera, Entity player, double reach) {
