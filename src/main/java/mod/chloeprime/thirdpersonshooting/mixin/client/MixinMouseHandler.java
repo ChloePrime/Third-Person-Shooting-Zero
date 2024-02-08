@@ -1,20 +1,26 @@
 package mod.chloeprime.thirdpersonshooting.mixin.client;
 
-import mod.chloeprime.thirdpersonshooting.client.TpsPlayer;
+import mod.chloeprime.thirdpersonshooting.client.internal.TurnWarnable;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.MouseHandler;
-import net.minecraft.client.player.LocalPlayer;
+import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Redirect;
+import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-@Mixin(MouseHandler.class)
+import java.util.Objects;
+
+@Mixin(value = MouseHandler.class, priority = 995)
 public class MixinMouseHandler {
-    @Redirect(
+    @Shadow @Final private Minecraft minecraft;
+
+    @Inject(
             method = "turnPlayer",
             at = @At(value = "INVOKE", target = "Lnet/minecraft/client/player/LocalPlayer;turn(DD)V")
     )
-    private void turn(LocalPlayer player, double yRot, double xRot) {
-        ((TpsPlayer)player).TPSMOD_turnVirtual(yRot, xRot);
-        ((TpsPlayer)player).TPSMOD_applyRotation(TpsPlayer.howToApplyRotation(player));
+    private void turn(CallbackInfo ci) {
+        ((TurnWarnable) Objects.requireNonNull(this.minecraft.player)).thirdPersonShooting$warnTurning();
     }
 }

@@ -1,8 +1,10 @@
 package mod.chloeprime.thirdpersonshooting.mixin.client;
 
 import com.tac.guns.client.handler.ShootingHandler;
+import com.teamderpy.shouldersurfing.client.ShoulderInstance;
 import mod.chloeprime.thirdpersonshooting.client.RotationFixer;
 import mod.chloeprime.thirdpersonshooting.client.TpsPlayer;
+import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import org.spongepowered.asm.mixin.Mixin;
@@ -51,8 +53,11 @@ public class MixinTacShootingHandler {
             remap = false
     )
     private void inject_beforeShoot(Player player, ItemStack heldItem, CallbackInfo ci) {
-        if (player instanceof TpsPlayer tpsPlayer) {
-            tpsPlayer.TPSMOD_applyRotation(TpsPlayer.ApplyRotationMethod.APPLY_IMMEDIATELY);
+        if (!ShoulderInstance.getInstance().doShoulderSurfing()) {
+            return;
+        }
+        if (player instanceof LocalPlayer ssp && !ssp.isFallFlying()) {
+            ((TpsPlayer) ssp).TPSMOD_applyRotation(TpsPlayer.ApplyRotationMethod.APPLY_IMMEDIATELY);
         }
     }
 }

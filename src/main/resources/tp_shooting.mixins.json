@@ -5,11 +5,12 @@
   "compatibilityLevel": "JAVA_8",
   "refmap": "tp_shooting.refmap.json",
   "mixins": [
-    "client.EntityAccessor"
   ],
   "client": [
     "client.AimingHandlerAccessor",
+    "client.EntityAccessor",
     "client.MixinCamera",
+    "client.MixinEntity",
     "client.MixinLocalPlayer",
     "client.MixinMouseHandler",
     "client.MixinSsPerspective",
