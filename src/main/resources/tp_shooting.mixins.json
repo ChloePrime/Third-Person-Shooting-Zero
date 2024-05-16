@@ -13,7 +13,11 @@
     "client.MixinTacFovHandlers",
     "client.MixinTacMovementAdaptationsHandler",
     "client.MixinTacShootingHandler",
-    "client.TacAimingHandlerAccessor"
+    "client.TacAimingHandlerAccessor",
+    "client.dynamicaiming.TacAimTrackerAccessor",
+    "client.dynamicaiming.TacGunRenderingHandlerAccessor"
+    "client.dynamicaiming.MixinKeyMapping",
+    "client.dynamicaiming.MixinTacAimingHandler"
   ],
   "injectors": {
     "defaultRequire": 1

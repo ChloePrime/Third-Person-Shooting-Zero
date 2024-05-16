@@ -6,6 +6,7 @@ import com.tac.guns.client.handler.AimingHandler;
 import com.tac.guns.common.AimingManager;
 import com.tac.guns.util.GunModifierHelper;
 import mod.chloeprime.thirdpersonshooting.client.ClientConfig;
+import net.minecraft.client.CameraType;
 import net.minecraft.util.Mth;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.client.event.FOVModifierEvent;
@@ -20,6 +21,7 @@ import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import static com.github.exopandora.shouldersurfing.config.Perspective.FIRST_PERSON;
+import static com.github.exopandora.shouldersurfing.config.Perspective.SHOULDER_SURFING;
 import static mod.chloeprime.thirdpersonshooting.client.ClientConfig.CONSTANT_AIMING_FOV_SCALE;
 
 @Mixin(value = AimingHandler.class, remap = false)
@@ -63,6 +65,7 @@ public class MixinTacAimingHandler {
                 at = @At(value = "INVOKE", target = "Lcom/tac/guns/util/GunModifierHelper;getModifiedAimDownSightSpeed(Lnet/minecraft/world/item/ItemStack;D)D", remap = false),
                 remap = false
         )
+        @SuppressWarnings("UnreachableCode")
         private double lockSpeedAtSsMode(ItemStack weapon, double speed) {
             if ((Object)this != ((TacAimingHandlerAccessor) AimingHandler.get()).getLocalTracker()) {
                 return GunModifierHelper.getModifiedAimDownSightSpeed(weapon, speed);

@@ -7,6 +7,7 @@ public class ClientConfig {
     public static final ForgeConfigSpec.BooleanValue CONSTANT_AIMING_FOV_SCALE;
     public static final ForgeConfigSpec.DoubleValue CONSTANT_AIMING_FOV_SCALE_VALUE;
     public static final ForgeConfigSpec.DoubleValue CONSTANT_AIMING_ADS_SPEED;
+    public static final ForgeConfigSpec.BooleanValue DYNAMIC_AIM_MODE;
 
     static {
         var builder = new ForgeConfigSpec.Builder();
@@ -26,6 +27,12 @@ public class ClientConfig {
 //                .comment("""
 //                        Set this to true to make Free Look only applies to yaw,
 //                        and always keep the pitch move with mouse""")
+
+        DYNAMIC_AIM_MODE = builder
+                .comment("""
+                        If enabled, tapping the aim button will put you in/out of first person view
+                        This only works while TAC's Config.CLIENT.controls.holdToAim is set to true""")
+                .define("dynamic_aim_mode", true);
 
         SPEC = builder.build();
     }

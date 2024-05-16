@@ -9,4 +9,13 @@ import org.spongepowered.asm.mixin.gen.Accessor;
 public interface TacAimingHandlerAccessor {
     @Accessor
     AimingManager.AimTracker getLocalTracker();
+
+    @Accessor
+    void setNormalisedAdsProgress(double normalisedAdsProgress);
+
+    @Accessor
+    void setNewProgress(double newProgress);
+
+    @Accessor
+    void setOldProgress(double oldProgress);
 }
