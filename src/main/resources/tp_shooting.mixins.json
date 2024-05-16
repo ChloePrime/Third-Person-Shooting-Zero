@@ -15,7 +15,7 @@
     "client.MixinTacShootingHandler",
     "client.TacAimingHandlerAccessor",
     "client.dynamicaiming.TacAimTrackerAccessor",
-    "client.dynamicaiming.TacGunRenderingHandlerAccessor"
+    "client.dynamicaiming.TacGunRenderingHandlerAccessor",
     "client.dynamicaiming.MixinKeyMapping",
     "client.dynamicaiming.MixinTacAimingHandler"
   ],
