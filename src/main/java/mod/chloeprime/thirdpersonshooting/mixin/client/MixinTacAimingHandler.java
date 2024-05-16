@@ -1,10 +1,10 @@
 package mod.chloeprime.thirdpersonshooting.mixin.client;
 
+import com.github.exopandora.shouldersurfing.client.ShoulderInstance;
+import com.github.exopandora.shouldersurfing.config.Perspective;
 import com.tac.guns.client.handler.AimingHandler;
 import com.tac.guns.common.AimingManager;
 import com.tac.guns.util.GunModifierHelper;
-import com.teamderpy.shouldersurfing.client.ShoulderInstance;
-import com.teamderpy.shouldersurfing.config.Perspective;
 import mod.chloeprime.thirdpersonshooting.client.ClientConfig;
 import net.minecraft.util.Mth;
 import net.minecraft.world.item.ItemStack;
@@ -19,7 +19,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-import static com.teamderpy.shouldersurfing.config.Perspective.FIRST_PERSON;
+import static com.github.exopandora.shouldersurfing.config.Perspective.FIRST_PERSON;
 import static mod.chloeprime.thirdpersonshooting.client.ClientConfig.CONSTANT_AIMING_FOV_SCALE;
 
 @Mixin(value = AimingHandler.class, remap = false)
@@ -64,7 +64,7 @@ public class MixinTacAimingHandler {
                 remap = false
         )
         private double lockSpeedAtSsMode(ItemStack weapon, double speed) {
-            if ((Object)this != ((AimingHandlerAccessor) AimingHandler.get()).getLocalTracker()) {
+            if ((Object)this != ((TacAimingHandlerAccessor) AimingHandler.get()).getLocalTracker()) {
                 return GunModifierHelper.getModifiedAimDownSightSpeed(weapon, speed);
             }
             if (EffectiveSide.get().isServer() ||

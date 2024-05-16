@@ -7,20 +7,13 @@
   "mixins": [
   ],
   "client": [
-    "client.AimingHandlerAccessor",
-    "client.EntityAccessor",
-    "client.MixinCamera",
-    "client.MixinEntity",
-    "client.MixinLocalPlayer",
-    "client.MixinMouseHandler",
-    "client.MixinSsPerspective",
-    "client.MixinSsShoulderHelper",
     "client.MixinTacAimingHandler",
     "client.MixinTacAimingHandler$MixinAimTracker",
     "client.MixinTacCrosshairHandler",
     "client.MixinTacFovHandlers",
     "client.MixinTacMovementAdaptationsHandler",
-    "client.MixinTacShootingHandler"
+    "client.MixinTacShootingHandler",
+    "client.TacAimingHandlerAccessor"
   ],
   "injectors": {
     "defaultRequire": 1

@@ -6,7 +6,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.gen.Accessor;
 
 @Mixin(value = AimingHandler.class, remap = false)
-public interface AimingHandlerAccessor {
+public interface TacAimingHandlerAccessor {
     @Accessor
     AimingManager.AimTracker getLocalTracker();
 }
