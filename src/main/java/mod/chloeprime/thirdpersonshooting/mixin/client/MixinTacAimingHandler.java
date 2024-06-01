@@ -1,83 +1,45 @@
 package mod.chloeprime.thirdpersonshooting.mixin.client;
 
 import com.github.exopandora.shouldersurfing.client.ShoulderInstance;
-import com.github.exopandora.shouldersurfing.config.Perspective;
-import com.tac.guns.client.handler.AimingHandler;
-import com.tac.guns.common.AimingManager;
-import com.tac.guns.util.GunModifierHelper;
-import mod.chloeprime.thirdpersonshooting.client.ClientConfig;
-import net.minecraft.client.CameraType;
-import net.minecraft.util.Mth;
+import com.tacz.guns.api.item.IGun;
+import com.tacz.guns.client.event.CameraSetupEvent;
+import com.tacz.guns.client.gameplay.LocalPlayerAim;
+import com.tacz.guns.resource.pojo.data.gun.GunData;
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.client.event.FOVModifierEvent;
-import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.fml.util.thread.EffectiveSide;
-import org.objectweb.asm.Opcodes;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.Redirect;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
-import static com.github.exopandora.shouldersurfing.config.Perspective.FIRST_PERSON;
-import static com.github.exopandora.shouldersurfing.config.Perspective.SHOULDER_SURFING;
-import static mod.chloeprime.thirdpersonshooting.client.ClientConfig.CONSTANT_AIMING_FOV_SCALE;
+import static mod.chloeprime.thirdpersonshooting.client.ClientConfig.CONSTANT_AIMING_ZOOM_SCALE;
+import static mod.chloeprime.thirdpersonshooting.client.ClientConfig.CONSTANT_AIMING_ZOOM_SCALE_VALUE;
 
-@Mixin(value = AimingHandler.class, remap = false)
+@Mixin(value = LocalPlayerAim.class, remap = false)
 public class MixinTacAimingHandler {
-    @Shadow private double normalisedAdsProgress;
-
-    @Inject(
-            method = "onRenderOverlay",
-            at = @At(
-                    value = "FIELD", opcode = Opcodes.PUTFIELD, target = "Lcom/tac/guns/client/handler/AimingHandler;normalisedAdsProgress:D",
-                    shift = At.Shift.AFTER, remap = false),
-            cancellable = true,
-            remap = false
-    )
-    private void keepCrosshairOnNonFp(RenderGameOverlayEvent.PreLayer event, CallbackInfo ci) {
-        if (Perspective.current() != FIRST_PERSON) {
-            ci.cancel();
+    @Inject(method = "getAlphaProgress", at = @At("HEAD"), cancellable = true)
+    private void lockSpeedAtSsMode(GunData gunData, ItemStack mainhandItem, CallbackInfoReturnable<Float> cir) {
+        if (EffectiveSide.get().isClient() &&
+                CONSTANT_AIMING_ZOOM_SCALE.get() &&
+                ShoulderInstance.getInstance().doShoulderSurfing()
+        ) {
+            cir.setReturnValue(1F);
         }
     }
 
-    @Redirect(
-            method = "onFovUpdate",
-            at = @At(value = "INVOKE", target = "Lnet/minecraftforge/client/event/FOVModifierEvent;setNewfov(F)V", remap = false),
-            remap = false
-    )
-    private void changeSetToBlend(FOVModifierEvent e, float newFov) {
-        float scale;
-        if (CONSTANT_AIMING_FOV_SCALE.get() && ShoulderInstance.getInstance().doShoulderSurfing()) {
-            float scalev = ClientConfig.CONSTANT_AIMING_FOV_SCALE_VALUE.get().floatValue();
-            scale = Mth.lerp((float)normalisedAdsProgress, 1, scalev);
-        } else {
-            scale = newFov;
-        }
-        e.setNewfov(e.getNewfov() * scale);
-    }
-
-    @Mixin(value = AimingManager.AimTracker.class, remap = false)
-    public static class MixinAimTracker {
+    @Mixin(value = CameraSetupEvent.class, remap = false)
+    public static class MixinFovEvent {
         @Redirect(
-                method = "handleAiming",
-                at = @At(value = "INVOKE", target = "Lcom/tac/guns/util/GunModifierHelper;getModifiedAimDownSightSpeed(Lnet/minecraft/world/item/ItemStack;D)D", remap = false),
-                remap = false
-        )
-        @SuppressWarnings("UnreachableCode")
-        private double lockSpeedAtSsMode(ItemStack weapon, double speed) {
-            if ((Object)this != ((TacAimingHandlerAccessor) AimingHandler.get()).getLocalTracker()) {
-                return GunModifierHelper.getModifiedAimDownSightSpeed(weapon, speed);
+                method = {"applyScopeMagnification"},
+                at = @At(
+                        value = "INVOKE",
+                        target = "Lcom/tacz/guns/api/item/IGun;getAimingZoom(Lnet/minecraft/world/item/ItemStack;)F"))
+        private static float redirectFov(IGun gun, ItemStack stack) {
+            if (CONSTANT_AIMING_ZOOM_SCALE.get() && ShoulderInstance.getInstance().doShoulderSurfing()) {
+                return CONSTANT_AIMING_ZOOM_SCALE_VALUE.get().floatValue();
             }
-            if (EffectiveSide.get().isServer() ||
-                    !CONSTANT_AIMING_FOV_SCALE.get() ||
-                    !ShoulderInstance.getInstance().doShoulderSurfing()
-            ) {
-                return GunModifierHelper.getModifiedAimDownSightSpeed(weapon, speed);
-            }
-
-            return 1;
+            return gun.getAimingZoom(stack);
         }
     }
 }

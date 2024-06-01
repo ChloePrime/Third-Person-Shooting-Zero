@@ -8,16 +8,11 @@
   ],
   "client": [
     "client.MixinTacAimingHandler",
-    "client.MixinTacAimingHandler$MixinAimTracker",
+    "client.MixinTacAimingHandler$MixinFovEvent",
     "client.MixinTacCrosshairHandler",
-    "client.MixinTacFovHandlers",
-    "client.MixinTacMovementAdaptationsHandler",
-    "client.MixinTacShootingHandler",
-    "client.TacAimingHandlerAccessor",
-    "client.dynamicaiming.TacAimTrackerAccessor",
-    "client.dynamicaiming.TacGunRenderingHandlerAccessor",
-    "client.dynamicaiming.MixinKeyMapping",
-    "client.dynamicaiming.MixinTacAimingHandler"
+    "client.MixinTacCrosshairHandler$NeverHideCrosshairWhenSs",
+    "client.MixinTacRecoilHandler",
+    "client.dynamicaiming.MixinKeyMapping"
   ],
   "injectors": {
     "defaultRequire": 1

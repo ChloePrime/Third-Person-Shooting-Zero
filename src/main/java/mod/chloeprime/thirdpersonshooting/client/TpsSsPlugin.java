@@ -2,8 +2,7 @@ package mod.chloeprime.thirdpersonshooting.client;
 
 import com.github.exopandora.shouldersurfing.api.IShoulderSurfingPlugin;
 import com.github.exopandora.shouldersurfing.api.IShoulderSurfingRegistrar;
-import com.tac.guns.client.handler.AimingHandler;
-import com.tac.guns.item.GunItem;
+import com.tacz.guns.api.item.IGun;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.Input;
 import net.minecraft.client.player.KeyboardInput;
@@ -13,10 +12,10 @@ public class TpsSsPlugin implements IShoulderSurfingPlugin {
     @Override
     public void register(IShoulderSurfingRegistrar registrar) {
         registrar.registerAdaptiveItemCallback(stack -> {
-            if (!(stack.getItem() instanceof GunItem)) {
+            if (!(stack.getItem() instanceof IGun)) {
                 return false;
             }
-            return overrideIsAiming || AimingHandler.get().isAiming();
+            return overrideIsAiming || LocalGunner.isAiming();
         });
     }
 
