@@ -200,7 +200,7 @@ dependencies {
 
     implementation fg.deobf("com.github.MCModderAnchor:TACZ:${tacz_version}")
     minecraftLibrary 'org.apache.commons:commons-math3:3.6.1'
-    implementation fg.deobf('maven.modrinth:shoulder-surfing-reloaded:GwinOBtV')
+    implementation fg.deobf('maven.modrinth:shoulder-surfing-reloaded:1.20.1-4.0.0')
 //    implementation fg.deobf('curse.maven:yes-steve-model-1.1.5hf2-784675:4667056')
 
     // Example mod dependency with JEI - using fg.deobf() ensures the dependency is remapped to your development mappings

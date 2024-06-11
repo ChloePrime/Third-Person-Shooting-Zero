@@ -1,6 +1,6 @@
 package mod.chloeprime.thirdpersonshooting.mixin.client;
 
-import com.github.exopandora.shouldersurfing.client.ShoulderInstance;
+import com.github.exopandora.shouldersurfing.api.client.ShoulderSurfing;
 import com.tacz.guns.api.item.IGun;
 import com.tacz.guns.client.event.CameraSetupEvent;
 import com.tacz.guns.client.gameplay.LocalPlayerAim;
@@ -22,7 +22,7 @@ public class MixinTacAimingHandler {
     private void lockSpeedAtSsMode(GunData gunData, ItemStack mainhandItem, CallbackInfoReturnable<Float> cir) {
         if (EffectiveSide.get().isClient() &&
                 CONSTANT_AIMING_ZOOM_SCALE.get() &&
-                ShoulderInstance.getInstance().doShoulderSurfing()
+                ShoulderSurfing.getInstance().isShoulderSurfing()
         ) {
             cir.setReturnValue(1F);
         }
@@ -36,7 +36,7 @@ public class MixinTacAimingHandler {
                         value = "INVOKE",
                         target = "Lcom/tacz/guns/api/item/IGun;getAimingZoom(Lnet/minecraft/world/item/ItemStack;)F"))
         private static float redirectFov(IGun gun, ItemStack stack) {
-            if (CONSTANT_AIMING_ZOOM_SCALE.get() && ShoulderInstance.getInstance().doShoulderSurfing()) {
+            if (CONSTANT_AIMING_ZOOM_SCALE.get() && ShoulderSurfing.getInstance().isShoulderSurfing()) {
                 return CONSTANT_AIMING_ZOOM_SCALE_VALUE.get().floatValue();
             }
             return gun.getAimingZoom(stack);

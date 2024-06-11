@@ -1,7 +1,7 @@
 package mod.chloeprime.thirdpersonshooting.mixin.client;
 
-import com.github.exopandora.shouldersurfing.client.ShoulderInstance;
-import com.github.exopandora.shouldersurfing.config.Perspective;
+import com.github.exopandora.shouldersurfing.api.client.ShoulderSurfing;
+import com.github.exopandora.shouldersurfing.api.model.Perspective;
 import com.tacz.guns.api.client.gameplay.IClientPlayerGunOperator;
 import com.tacz.guns.client.animation.internal.GunAnimationStateMachine;
 import com.tacz.guns.client.event.RenderCrosshairEvent;
@@ -12,8 +12,8 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
-import static com.github.exopandora.shouldersurfing.config.Perspective.FIRST_PERSON;
-import static com.github.exopandora.shouldersurfing.config.Perspective.SHOULDER_SURFING;
+import static com.github.exopandora.shouldersurfing.api.model.Perspective.FIRST_PERSON;
+import static com.github.exopandora.shouldersurfing.api.model.Perspective.SHOULDER_SURFING;
 
 @Mixin(value = RenderCrosshairEvent.class, remap = false)
 public class MixinTacCrosshairHandler {
@@ -32,7 +32,7 @@ public class MixinTacCrosshairHandler {
             at = @At(value = "INVOKE", target = "Lcom/tacz/guns/api/client/gameplay/IClientPlayerGunOperator;getClientAimingProgress(F)F")
     )
     private static float neverHideCrosshairWhenSs(IClientPlayerGunOperator gunner, float partialTick) {
-        if (ShoulderInstance.getInstance().doShoulderSurfing()) {
+        if (ShoulderSurfing.getInstance().isShoulderSurfing()) {
             return 0;
         }
         return gunner.getClientAimingProgress(partialTick);
@@ -42,7 +42,7 @@ public class MixinTacCrosshairHandler {
     public static class NeverHideCrosshairWhenSs {
         @Inject(method = "shouldHideCrossHair", at = @At("HEAD"), cancellable = true)
         private void neverHideCrosshairWhenSs(CallbackInfoReturnable<Boolean> cir) {
-            if (ShoulderInstance.getInstance().doShoulderSurfing()) {
+            if (ShoulderSurfing.getInstance().isShoulderSurfing()) {
                 cir.setReturnValue(false);
             }
         }

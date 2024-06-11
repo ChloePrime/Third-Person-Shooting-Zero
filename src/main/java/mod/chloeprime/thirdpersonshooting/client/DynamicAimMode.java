@@ -7,7 +7,6 @@ import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
-import static com.github.exopandora.shouldersurfing.config.Perspective.*;
 
 /**
  * @see MixinKeyMapping;
