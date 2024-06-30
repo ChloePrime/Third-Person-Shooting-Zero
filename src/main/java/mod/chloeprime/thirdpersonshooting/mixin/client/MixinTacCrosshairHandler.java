@@ -2,6 +2,7 @@ package mod.chloeprime.thirdpersonshooting.mixin.client;
 
 import com.github.exopandora.shouldersurfing.api.client.ShoulderSurfing;
 import com.github.exopandora.shouldersurfing.api.model.Perspective;
+import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import com.tacz.guns.api.client.gameplay.IClientPlayerGunOperator;
 import com.tacz.guns.client.animation.internal.GunAnimationStateMachine;
 import com.tacz.guns.client.event.RenderCrosshairEvent;
@@ -27,15 +28,12 @@ public class MixinTacCrosshairHandler {
         return (current == FIRST_PERSON || current == SHOULDER_SURFING);
     }
 
-    @Redirect(
-            method = "onRenderOverlay",
+    @ModifyExpressionValue(
+            method = { "onRenderOverlay", "lambda$onRenderOverlay$0" },
             at = @At(value = "INVOKE", target = "Lcom/tacz/guns/api/client/gameplay/IClientPlayerGunOperator;getClientAimingProgress(F)F")
     )
-    private static float neverHideCrosshairWhenSs(IClientPlayerGunOperator gunner, float partialTick) {
-        if (ShoulderSurfing.getInstance().isShoulderSurfing()) {
-            return 0;
-        }
-        return gunner.getClientAimingProgress(partialTick);
+    private static float neverHideCrosshairWhenSs(float oldValue) {
+        return ShoulderSurfing.getInstance().isShoulderSurfing() ? 0 : oldValue;
     }
 
     @Mixin(value = GunAnimationStateMachine.class, remap = false)

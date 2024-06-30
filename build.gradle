@@ -187,20 +187,33 @@ repositories {
             includeGroup "maven.modrinth"
         }
     }
-    maven {
-        url 'https://jitpack.io'
-    }
-    flatDir {
-        dir 'libs'
+    if (USE_LOCAL_TACZ as boolean) {
+        flatDir {
+            dir 'libs'
+        }
+    } else {
+        maven {
+            url 'https://jitpack.io'
+        }
     }
 }
 
 dependencies {
     minecraft "net.minecraftforge:forge:${minecraft_version}-${forge_version}"
 
-    implementation fg.deobf("com.github.MCModderAnchor:TACZ:${tacz_version}")
-    minecraftLibrary 'org.apache.commons:commons-math3:3.6.1'
-    implementation fg.deobf('maven.modrinth:shoulder-surfing-reloaded:1.20.1-4.0.0')
+    if (USE_LOCAL_TACZ as boolean) {
+        implementation fg.deobf("com.github.MCModderAnchor:tacz:1+")
+    } else {
+        implementation fg.deobf("com.github.MCModderAnchor:TACZ:${tacz_version}")
+        minecraftLibrary 'org.apache.commons:commons-math3:3.6.1'
+    }
+    implementation fg.deobf('maven.modrinth:shoulder-surfing-reloaded:1.20.1-4.1.1')
+
+    // MixinExtras
+    compileOnly(annotationProcessor("io.github.llamalad7:mixinextras-common:0.3.6"))
+    implementation(jarJar("io.github.llamalad7:mixinextras-forge:0.3.6")) {
+        jarJar.ranged(it, "[0.3.6,)")
+    }
 //    implementation fg.deobf('curse.maven:yes-steve-model-1.1.5hf2-784675:4667056')
 
     // Example mod dependency with JEI - using fg.deobf() ensures the dependency is remapped to your development mappings
