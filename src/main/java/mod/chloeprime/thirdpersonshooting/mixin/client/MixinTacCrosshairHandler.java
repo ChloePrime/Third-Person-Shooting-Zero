@@ -3,7 +3,6 @@ package mod.chloeprime.thirdpersonshooting.mixin.client;
 import com.github.exopandora.shouldersurfing.api.client.ShoulderSurfing;
 import com.github.exopandora.shouldersurfing.api.model.Perspective;
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
-import com.tacz.guns.api.client.gameplay.IClientPlayerGunOperator;
 import com.tacz.guns.client.animation.internal.GunAnimationStateMachine;
 import com.tacz.guns.client.event.RenderCrosshairEvent;
 import net.minecraft.client.CameraType;
