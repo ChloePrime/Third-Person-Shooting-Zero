@@ -187,7 +187,7 @@ repositories {
             includeGroup "maven.modrinth"
         }
     }
-    if (USE_LOCAL_TACZ as boolean) {
+    if (Boolean.parseBoolean(USE_LOCAL_TACZ)) {
         flatDir {
             dir 'libs'
         }
@@ -200,14 +200,13 @@ repositories {
 
 dependencies {
     minecraft "net.minecraftforge:forge:${minecraft_version}-${forge_version}"
-
-    if (USE_LOCAL_TACZ as boolean) {
+    if (Boolean.parseBoolean(USE_LOCAL_TACZ)) {
         implementation fg.deobf("com.github.MCModderAnchor:tacz:1+")
     } else {
-        implementation fg.deobf("com.github.MCModderAnchor:TACZ:${tacz_version}")
+        implementation fg.deobf("maven.modrinth:timeless-and-classics-zero:${tacz_version}")
         minecraftLibrary 'org.apache.commons:commons-math3:3.6.1'
     }
-    implementation fg.deobf('maven.modrinth:shoulder-surfing-reloaded:1.20.1-4.1.1')
+    implementation fg.deobf('maven.modrinth:shoulder-surfing-reloaded:1.19.2-4.1.1')
 
     // MixinExtras
     compileOnly(annotationProcessor("io.github.llamalad7:mixinextras-common:0.3.6"))
