@@ -18,8 +18,9 @@ import static mod.chloeprime.thirdpersonshooting.client.ClientConfig.CONSTANT_AI
 
 @Mixin(value = LocalPlayerAim.class, remap = false)
 public class MixinTacAimingHandler {
-    @Inject(method = "getAlphaProgress", at = @At("HEAD"), cancellable = true)
-    private void lockSpeedAtSsMode(GunData gunData, ItemStack mainhandItem, CallbackInfoReturnable<Float> cir) {
+    @SuppressWarnings("InvalidInjectorMethodSignature")
+    @Inject(method = "getAlphaProgress", at = @At("HEAD"), cancellable = true, require = 0)
+    private void lockSpeedAtSsMode_103(GunData gunData, CallbackInfoReturnable<Float> cir) {
         if (EffectiveSide.get().isClient() &&
                 CONSTANT_AIMING_ZOOM_SCALE.get() &&
                 ShoulderSurfing.getInstance().isShoulderSurfing()
