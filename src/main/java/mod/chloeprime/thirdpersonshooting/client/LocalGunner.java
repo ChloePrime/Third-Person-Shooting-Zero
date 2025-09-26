@@ -18,7 +18,7 @@ public class LocalGunner {
 
     public static boolean isHoldingGun() {
         return Optional.ofNullable(Minecraft.getInstance().player)
-                .filter(IGun::mainhandHoldGun)
+                .filter(IGun::mainHandHoldGun)
                 .isPresent();
     }
 }

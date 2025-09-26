@@ -3,7 +3,7 @@ package mod.chloeprime.thirdpersonshooting.mixin.client;
 import com.github.exopandora.shouldersurfing.api.client.ShoulderSurfing;
 import com.github.exopandora.shouldersurfing.api.model.Perspective;
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
-import com.tacz.guns.client.animation.internal.GunAnimationStateMachine;
+import com.tacz.guns.api.client.animation.statemachine.AnimationStateContext;
 import com.tacz.guns.client.event.RenderCrosshairEvent;
 import net.minecraft.client.CameraType;
 import org.spongepowered.asm.mixin.Mixin;
@@ -35,7 +35,7 @@ public class MixinTacCrosshairHandler {
         return ShoulderSurfing.getInstance().isShoulderSurfing() ? 0 : oldValue;
     }
 
-    @Mixin(value = GunAnimationStateMachine.class, remap = false)
+    @Mixin(value = AnimationStateContext.class, remap = false)
     public static class NeverHideCrosshairWhenSs {
         @Inject(method = "shouldHideCrossHair", at = @At("HEAD"), cancellable = true)
         private void neverHideCrosshairWhenSs(CallbackInfoReturnable<Boolean> cir) {

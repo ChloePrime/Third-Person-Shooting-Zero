@@ -30,6 +30,8 @@ public class ClientConfig {
 
         DYNAMIC_AIM_MODE = builder
                 .comment("""
+                        This option is broken and has no effect on TaC Zero.
+                        ========================== Original Description ==========================
                         If enabled, tapping the aim button will put you in/out of first person view
                         This only works while TAC's Config.CLIENT.controls.holdToAim is set to true""")
                 .define("dynamic_aim_mode", true);
