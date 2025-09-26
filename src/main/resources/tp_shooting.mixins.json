@@ -1,11 +1,8 @@
 {
   "required": true,
-  "minVersion": "0.8",
   "package": "mod.chloeprime.thirdpersonshooting.mixin",
-  "compatibilityLevel": "JAVA_8",
-  "refmap": "tp_shooting.refmap.json",
-  "mixins": [
-  ],
+  "compatibilityLevel": "JAVA_21",
+  "mixins": [],
   "client": [
     "client.MixinTacAimingHandler",
     "client.MixinTacAimingHandler$MixinFovEvent",
@@ -16,5 +13,8 @@
   ],
   "injectors": {
     "defaultRequire": 1
+  },
+  "overwrites": {
+    "requireAnnotations": true
   }
 }

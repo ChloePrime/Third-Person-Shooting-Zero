@@ -1,16 +1,16 @@
 package mod.chloeprime.thirdpersonshooting.client;
 
-import net.minecraftforge.common.ForgeConfigSpec;
+import net.neoforged.neoforge.common.ModConfigSpec;
 
 public class ClientConfig {
-    public static final ForgeConfigSpec SPEC;
-    public static final ForgeConfigSpec.BooleanValue CONSTANT_AIMING_ZOOM_SCALE;
-    public static final ForgeConfigSpec.DoubleValue CONSTANT_AIMING_ZOOM_SCALE_VALUE;
-    public static final ForgeConfigSpec.DoubleValue CONSTANT_AIMING_ADS_SPEED;
-    public static final ForgeConfigSpec.BooleanValue DYNAMIC_AIM_MODE;
+    public static final ModConfigSpec SPEC;
+    public static final ModConfigSpec.BooleanValue CONSTANT_AIMING_ZOOM_SCALE;
+    public static final ModConfigSpec.DoubleValue CONSTANT_AIMING_ZOOM_SCALE_VALUE;
+    public static final ModConfigSpec.DoubleValue CONSTANT_AIMING_ADS_SPEED;
+    public static final ModConfigSpec.BooleanValue DYNAMIC_AIM_MODE;
 
     static {
-        var builder = new ForgeConfigSpec.Builder();
+        var builder = new ModConfigSpec.Builder();
 
         CONSTANT_AIMING_ZOOM_SCALE = builder
                 .comment("Make fov scale at shoulder surfing view constant, ignoring scopes on current gun")

@@ -6,7 +6,7 @@ import com.tacz.guns.client.event.CameraSetupEvent;
 import com.tacz.guns.client.gameplay.LocalPlayerAim;
 import com.tacz.guns.resource.pojo.data.gun.GunData;
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.fml.util.thread.EffectiveSide;
+import net.neoforged.fml.util.thread.EffectiveSide;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;

@@ -3,15 +3,16 @@ package mod.chloeprime.thirdpersonshooting.client.eventhandler;
 import com.tacz.guns.client.event.CameraSetupEvent;
 import mod.chloeprime.thirdpersonshooting.mixin.client.MixinTacRecoilHandler;
 import net.minecraft.client.Minecraft;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.client.event.ViewportEvent;
-import net.minecraftforge.eventbus.api.EventPriority;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.bus.api.EventPriority;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.neoforge.client.event.ViewportEvent;
+import org.apache.commons.lang3.mutable.MutableBoolean;
 
 import java.util.Optional;
 
-@Mod.EventBusSubscriber(Dist.CLIENT)
+@EventBusSubscriber(Dist.CLIENT)
 public class TacCameraPriorityFix {
     /**
      * @see MixinTacRecoilHandler#fixNoRecoilOnSsBug
@@ -26,7 +27,13 @@ public class TacCameraPriorityFix {
         } else {
             xr = yr = 0;
         }
-        CameraSetupEvent.applyCameraRecoil(event);
+        var isFixCall = IS_FIX_CALL.get();
+        try {
+            isFixCall.setTrue();
+            CameraSetupEvent.applyCameraRecoil(event);
+        } finally {
+            isFixCall.setFalse();
+        }
         player.ifPresent(pl -> {
             var drx = pl.getXRot() - xr;
             var dry = pl.getYRot() - yr;
@@ -35,4 +42,9 @@ public class TacCameraPriorityFix {
             pl.turn(dry / 0.15F, drx / 0.15F);
         });
     }
+
+    /**
+     * @since 1.21.1-5.1.1
+     */
+    public static final ThreadLocal<MutableBoolean> IS_FIX_CALL = ThreadLocal.withInitial(MutableBoolean::new);
 }

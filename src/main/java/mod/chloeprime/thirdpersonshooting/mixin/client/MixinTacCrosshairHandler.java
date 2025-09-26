@@ -28,7 +28,7 @@ public class MixinTacCrosshairHandler {
     }
 
     @ModifyExpressionValue(
-            method = { "onRenderOverlay", "lambda$onRenderOverlay$0" },
+            method = { "onRenderCrosshair", "lambda$onRenderCrosshair$0" },
             at = @At(value = "INVOKE", target = "Lcom/tacz/guns/api/client/gameplay/IClientPlayerGunOperator;getClientAimingProgress(F)F")
     )
     private static float neverHideCrosshairWhenSs(float oldValue) {

@@ -2,16 +2,16 @@ package mod.chloeprime.thirdpersonshooting.client;
 
 import mod.chloeprime.thirdpersonshooting.mixin.client.dynamicaiming.MixinKeyMapping;
 import net.minecraft.client.KeyMapping;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.event.TickEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.neoforge.client.event.ClientTickEvent;
 
 
 /**
  * @see MixinKeyMapping;
  */
-@Mod.EventBusSubscriber(Dist.CLIENT)
+@EventBusSubscriber(Dist.CLIENT)
 public class DynamicAimMode {
     /**
      * 200毫秒等于多少纳秒
@@ -50,7 +50,7 @@ public class DynamicAimMode {
     }
 
     @SubscribeEvent
-    public static void tick(TickEvent.ClientTickEvent event) {
+    public static void tick(ClientTickEvent.Post event) {
 //        if (event.phase != TickEvent.Phase.END) {
 //            return;
 //        }
