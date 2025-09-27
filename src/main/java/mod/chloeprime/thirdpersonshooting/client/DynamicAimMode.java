@@ -9,12 +9,12 @@ import net.minecraftforge.fml.common.Mod;
 
 
 /**
- * @see MixinKeyMapping;
+ * @see MixinKeyMapping
  */
 @Mod.EventBusSubscriber(Dist.CLIENT)
 public class DynamicAimMode {
     /**
-     * 200毫秒等于多少纳秒
+     * 200 毫秒等于多少纳秒
      */
     public static final long SHORT_PRESS_THRESHOLD_NANOS = 200_000_000;
     public static long lastAimKeyPressedTime = -1;
