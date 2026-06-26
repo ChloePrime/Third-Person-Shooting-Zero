@@ -6,9 +6,8 @@
   "client": [
     "client.MixinTacAimingHandler",
     "client.MixinTacAimingHandler$MixinFovEvent",
-    "client.MixinTacCrosshairHandler",
-    "client.MixinTacCrosshairHandler$NeverHideCrosshairWhenSs",
-    "client.MixinTacRecoilHandler",
+    "client.bugfix.FixIncompatibleClassChangeInCameraSetupEvent",
+    "client.bugfix.FixIncompatibleClassChangeInShoulderSurfingCompatInner",
     "client.dynamicaiming.MixinKeyMapping"
   ],
   "injectors": {
