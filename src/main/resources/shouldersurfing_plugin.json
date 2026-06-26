@@ -1,3 +1,5 @@
 {
-  "entrypoint": "mod.chloeprime.thirdpersonshooting.client.TpsSsPlugin"
+  "entrypoints": [
+    "mod.chloeprime.thirdpersonshooting.client.TpsSsPlugin"
+  ]
 }

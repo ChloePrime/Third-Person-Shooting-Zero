@@ -1,6 +1,6 @@
 package mod.chloeprime.thirdpersonshooting.client.eventhandler;
 
-import com.github.exopandora.shouldersurfing.api.client.ShoulderSurfing;
+import com.github.exopandora.shouldersurfing.api.client.IShoulderSurfing;
 import com.tacz.guns.api.event.common.GunShootEvent;
 import net.minecraft.client.Minecraft;
 import net.minecraftforge.api.distmarker.Dist;
@@ -16,11 +16,11 @@ public class ClientGunFireEvent {
         if (event.getLogicalSide().isServer()) {
             return;
         }
-        if (!ShoulderSurfing.getInstance().isShoulderSurfing()) {
+        if (!IShoulderSurfing.getInstance().isShoulderSurfing()) {
             return;
         }
 
-        var camera = ShoulderSurfing.getInstance().getCamera();
+        var camera = IShoulderSurfing.getInstance().getCamera();
         Optional.ofNullable(Minecraft.getInstance().player).ifPresent(gunner -> {
             gunner.setYRot(camera.getYRot());
             gunner.setXRot(camera.getXRot());
