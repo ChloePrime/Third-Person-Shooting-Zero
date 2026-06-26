@@ -96,7 +96,7 @@ config="${mod_id}.mixins.json"
 [[dependencies.${mod_id}]]
     modId="shouldersurfing"
     type="required"
-    versionRange="[1.21.1-4,1.21.1-5)"
+    versionRange="[1.21.1-5,1.21.1-6)"
     ordering="AFTER"
     side="BOTH"
 
