@@ -197,7 +197,7 @@ dependencies {
     minecraft "net.minecraftforge:forge:${minecraft_version}-${forge_version}"
 
     implementation fg.deobf('curse.maven:timeless-and-classics-zero-1028108:6654541-sources-6654543')
-    implementation fg.deobf('maven.modrinth:shoulder-surfing-reloaded:1.20.1-4.1.1')
+    implementation fg.deobf('maven.modrinth:shoulder-surfing-reloaded:1.20.1-5.0.2+forge')
 
     // MixinExtras
     compileOnly(annotationProcessor("io.github.llamalad7:mixinextras-common:0.3.6"))
