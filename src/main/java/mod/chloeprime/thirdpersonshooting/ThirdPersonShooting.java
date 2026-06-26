@@ -16,7 +16,10 @@ public class ThirdPersonShooting {
 
     public ThirdPersonShooting() {
         if (ModList.get().isLoaded("betterthirdperson")) {
-            throw new UnsupportedOperationException("Third Person Shooting is incompatible with Better Third Person");
+            LOGGER.error("""
+                    \n[FATAL]
+                    Third Person Shooting is made for Shoulder Surfing Reload, not for or compatible with Better Third Person.
+                    This mod will not work and very likely the game will crash.""");
         }
 
         ModLoadingContext.get().registerConfig(ModConfig.Type.CLIENT, ClientConfig.SPEC);
